@@ -1,0 +1,37 @@
+{
+  "compilerOptions": {
+    "strictNullChecks": true,
+    "target": "ES5",
+    "esModuleInterop": true,
+    "downlevelIteration": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "skipLibCheck": true,
+    "module": "ES2022",
+    "moduleResolution": "Node",
+    "lib": [
+      "dom",
+      "es2018"
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    },
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.vue",
+    "views/**/*.ts",
+    "views/**/*.vue",
+    "vite.config.ts",
+  ],
+  "exclude": [
+    "./tsconfig.json", 
+    "node_modules", 
+    "public", 
+    "dist", 
+    "**/*.js"
+  ],
+}

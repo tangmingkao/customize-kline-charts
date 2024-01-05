@@ -1,0 +1,33 @@
+$--colors: (
+  "primary": (
+    "base": #f4a62a,
+  ),
+);
+//在项目中改变 Element 的样式变量
+@forward 'element-plus/theme-chalk/src/common/var.scss' with (
+  $colors: $--colors
+);
+
+@import './common-variables.scss';
+
+
+/** element-ui覆盖样式 **/
+
+// el-message
+.el-message{
+  z-index: 10000 !important;
+}
+
+// el-image
+.el-image {
+  &.common-image {
+    height: 100%;
+    width: 100%;
+  }
+}
+
+
+
+
+
+
