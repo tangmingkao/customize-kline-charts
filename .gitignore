@@ -2,8 +2,6 @@
 node_modules
 /dist
 .vscode
-
-/dist
 /package-lock.json
 /pnpm-lock.yaml
 

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    canvas {
+      border: 1px solid #000;
+    }
+  </style>
+  <title>Canvas Shapes</title>
+</head>
+<body>
+  <canvas id="myCanvas" width="400" height="400"></canvas>
+
+  <script>
+    const canvas = document.getElementById('myCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // 绘制圆形
+    ctx.beginPath();
+    ctx.arc(100, 100, 50, 0, 2 * Math.PI);
+    ctx.fillStyle = 'lightblue';
+    ctx.fill();
+
+    // 绘制正方形
+    ctx.beginPath();
+    ctx.rect(200, 50, 100, 100);
+    ctx.fillStyle = 'lightgreen';
+    ctx.fill();
+
+    // 绘制三角形
+    ctx.beginPath();
+    ctx.moveTo(350, 50);
+    ctx.lineTo(300, 150);
+    ctx.lineTo(400, 150);
+    ctx.closePath();
+    ctx.fillStyle = 'lightcoral';
+    ctx.fill();
+
+    // 监听鼠标移动事件
+    canvas.addEventListener('mousemove', handleMouseMove);
+
+    function handleMouseMove(event) {
+      const mouseX = event.clientX - canvas.getBoundingClientRect().left;
+      const mouseY = event.clientY - canvas.getBoundingClientRect().top;
+
+      // 判断鼠标是否在圆形内
+      const distanceToCircle = Math.sqrt((mouseX - 100) ** 2 + (mouseY - 100) ** 2);
+      if (distanceToCircle <= 50) {
+        canvas.style.cursor = 'crosshair';
+      } else {
+        canvas.style.cursor = 'default';
+      }
+    }
+  </script>
+</body>
+</html>

@@ -13,7 +13,7 @@ export default ({ mode }) =>
       open: true,
       proxy: {
         "/v2/": {
-          target: "https://futures.bytrade.cc/",
+          target: "https://futures.bytrade.io/",
           ws: true,
           secure: true,
           changeOrigin: true,

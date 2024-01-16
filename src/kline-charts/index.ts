@@ -79,7 +79,7 @@ function version (): string {
  * @returns {Chart}
  */
 function init (ds: HTMLElement | string, options?: Options): Nullable<Chart> {
-  // logTag()
+  logTag()
   let dom: Nullable<HTMLElement>
   if (isString(ds)) {
     dom = document.getElementById(ds)

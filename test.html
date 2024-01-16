@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    canvas {
+      border: 1px solid #000;
+    }
+  </style>
+  <title>Draggable Square</title>
+</head>
+<body>
+  <canvas id="myCanvas" width="400" height="400"></canvas>
+
+  <script>
+    const canvas = document.getElementById('myCanvas');
+    const ctx = canvas.getContext('2d');
+
+    const square = {
+      x: 50,
+      y: 50,
+      size: 50,
+      isDragging: false,
+    };
+
+    function drawSquare() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = 'blue';
+      ctx.fillRect(square.x, square.y, square.size, square.size);
+    }
+
+    function handleMouseDown(event) {
+      const mouseX = event.clientX - canvas.getBoundingClientRect().left;
+      const mouseY = event.clientY - canvas.getBoundingClientRect().top;
+
+      // 检查鼠标是否在正方形内
+      if (
+        mouseX >= square.x &&
+        mouseX <= square.x + square.size &&
+        mouseY >= square.y &&
+        mouseY <= square.y + square.size
+      ) {
+        square.isDragging = true;
+      }
+    }
+
+    function handleMouseUp() {
+      square.isDragging = false;
+    }
+
+    function handleMouseMove(event) {
+      if (square.isDragging) {
+        square.x = event.clientX - canvas.getBoundingClientRect().left - square.size / 2;
+        square.y = event.clientY - canvas.getBoundingClientRect().top - square.size / 2;
+        drawSquare();
+      }
+    }
+
+    // 添加事件监听器
+    canvas.addEventListener('mousedown', handleMouseDown);
+    canvas.addEventListener('mouseup', handleMouseUp);
+    canvas.addEventListener('mousemove', handleMouseMove);
+
+    // 初始绘制正方形
+    drawSquare();
+  </script>
+</body>
+</html>

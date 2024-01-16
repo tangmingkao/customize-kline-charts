@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    canvas {
+      border: 1px solid #000;
+    }
+  </style>
+  <title>Canvas Plus Sign</title>
+</head>
+<body>
+  <canvas id="myCanvas" width="400" height="400"></canvas>
+
+  <script>
+    const canvas = document.getElementById('myCanvas');
+    const ctx = canvas.getContext('2d');
+
+    function drawPlusSign() {
+      // 画圆形背景
+      ctx.beginPath();
+      ctx.arc(200, 200, 50, 0, 2 * Math.PI);
+      ctx.fillStyle = 'lightblue';
+      ctx.fill();
+
+      // 画横线
+      ctx.beginPath();
+      ctx.moveTo(150, 200);
+      ctx.lineTo(250, 200);
+      ctx.strokeStyle = 'blue';
+      ctx.lineWidth = 10;
+      ctx.stroke();
+
+      // 画竖线
+      ctx.beginPath();
+      ctx.moveTo(200, 150);
+      ctx.lineTo(200, 250);
+      ctx.strokeStyle = 'blue';
+      ctx.lineWidth = 10;
+      ctx.stroke();
+    }
+
+    // 初始绘制加号
+    drawPlusSign();
+  </script>
+</body>
+</html>

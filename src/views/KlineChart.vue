@@ -3,8 +3,9 @@ import { onMounted, onUnmounted } from "vue";
 import {
   init,
   dispose,
-  registerFigure,
-  registerOverlay,
+  TooltipIconPosition,
+YAxisType,
+ActionType,
 } from "../kline-charts/index";
 import { queryKlineList } from "@/http-handler/common";
 import { toType } from "@/utils";
@@ -32,101 +33,18 @@ const handleKlineList = (data) => {
 
 const getKlineList = () => {
   let requestParams: any = {
-    type: "15min",
+    type: "1day",
     market: "BTCUSDT",
     k: "kline",
-    start_time: parseInt(`${Date.now() / 1000 - 4 * 24 * 60 * 60}`),
+    start_time: parseInt(`${Date.now() / 1000 - 300 * 24 * 60 * 60}`),
     end_time: parseInt(`${Date.now() / 1000}`),
   };
   return queryKlineList(requestParams);
 };
 
-const customizeFigure = {
-  name: "diamond",
-  checkEventOn: (coordinate, attrs) => {
-    console.log("diamond:checkEventOn:>>>>>", coordinate, attrs);
-    const { x, y, width, height } = attrs;
-    const xDis = Math.abs(coordinate.x - x);
-    const yDis = Math.abs(coordinate.y - y);
-    return xDis * height + yDis * width < (width * height) / 2;
-  },
-  draw: (ctx, attrs, styles) => {
-    console.log("diamond:draw:>>>>>", ctx, attrs, styles);
-    const { x, y, width, height } = attrs;
-    const {
-      style = "fill",
-      color = "currentColor",
-      borderSize = 4,
-      borderColor = "#00C0AB",
-      borderStyle = "solid",
-      borderDashedValue = [2, 2],
-    } = styles;
-    // 绘制填充的菱形
-    if (style === "fill" || styles.style === "stroke_fill") {
-      ctx.fillStyle = color;
-      ctx.beginPath();
-      ctx.moveTo(x - width / 2, y);
-      ctx.lineTo(x, y - height / 2);
-      ctx.lineTo(x + width / 2, y);
-      ctx.lineTo(x, y + height / 2);
-      ctx.closePath();
-      ctx.fill();
-    }
-    // 绘制边框的菱形
-    if (style === "stroke" || styles.style === "stroke_fill") {
-      ctx.strokeStyle = borderColor;
-      ctx.lineWidth = borderSize;
-      if (borderStyle === "dashed") {
-        ctx.setLineDash(borderDashedValue);
-      } else {
-        ctx.setLineDash([]);
-      }
-      ctx.beginPath();
-      ctx.beginPath();
-      ctx.moveTo(x - width / 2, y);
-      ctx.lineTo(x, y - height / 2);
-      ctx.lineTo(x + width / 2, y);
-      ctx.lineTo(x, y + height / 2);
-      ctx.closePath();
-      ctx.stroke();
-    }
-  },
-};
-registerFigure(customizeFigure);
-
-const _overlay = {
-  // 名称
-  name: "sampleCircle",
-  // 完成一个圆的绘制需要三个步骤
-  totalStep: 3,
-  // 创建点对应的图形信息
-  createPointFigures: ({ coordinates }) => {
-    if (coordinates.length === 2) {
-      const xDis = Math.abs(coordinates[0].x - coordinates[1].x);
-      const yDis = Math.abs(coordinates[0].y - coordinates[1].y);
-      // 确定对应点生成的圆的坐标
-      const radius = Math.sqrt(xDis * xDis + yDis * yDis);
-      // 图表内置了基础图形'circle'，可以直接使用
-      return {
-        key: "sampleCircle",
-        type: "circle",
-        attrs: {
-          ...coordinates[0],
-          r: radius,
-        },
-        styles: {
-          // 选择边框且填充，其它选择使用默认样式
-          style: "stroke_fill",
-        },
-      };
-    }
-    return [];
-  },
-};
-registerOverlay(_overlay);
-
 onMounted(() => {
   // let _dom: HTMLElement | null = document.getElementById("chart");
+  const color = "#76808F";
   // 初始化图表
   let chart = init("chart", {
     styles: {
@@ -145,6 +63,94 @@ onMounted(() => {
             color: "#888888",
           },
         },
+        plusClick: {
+          show: true,
+        },
+      },
+      indicator: {
+        tooltip: {
+          icons: [
+            {
+              id: "visible",
+              position: TooltipIconPosition.Middle,
+              marginLeft: 8,
+              marginTop: 7,
+              marginRight: 0,
+              marginBottom: 0,
+              paddingLeft: 0,
+              paddingTop: 0,
+              paddingRight: 0,
+              paddingBottom: 0,
+              icon: "\ue903",
+              fontFamily: "icomoon",
+              size: 14,
+              color: color,
+              activeColor: color,
+              backgroundColor: "transparent",
+              activeBackgroundColor: "rgba(22, 119, 255, 0.1)",
+            },
+            {
+              id: "invisible",
+              position: TooltipIconPosition.Middle,
+              marginLeft: 8,
+              marginTop: 7,
+              marginRight: 0,
+              marginBottom: 0,
+              paddingLeft: 0,
+              paddingTop: 0,
+              paddingRight: 0,
+              paddingBottom: 0,
+              icon: "\ue901",
+              fontFamily: "icomoon",
+              size: 14,
+              color: color,
+              activeColor: color,
+              backgroundColor: "transparent",
+              activeBackgroundColor: "rgba(22, 119, 255, 0.1)",
+            },
+            {
+              id: "setting",
+              position: TooltipIconPosition.Middle,
+              marginLeft: 6,
+              marginTop: 7,
+              marginBottom: 0,
+              marginRight: 0,
+              paddingLeft: 0,
+              paddingTop: 0,
+              paddingRight: 0,
+              paddingBottom: 0,
+              icon: "\ue902",
+              fontFamily: "icomoon",
+              size: 14,
+              color: color,
+              activeColor: color,
+              backgroundColor: "transparent",
+              activeBackgroundColor: "rgba(22, 119, 255, 0.1)",
+            },
+            {
+              id: "close",
+              position: TooltipIconPosition.Middle,
+              marginLeft: 6,
+              marginTop: 7,
+              marginRight: 0,
+              marginBottom: 0,
+              paddingLeft: 0,
+              paddingTop: 0,
+              paddingRight: 0,
+              paddingBottom: 0,
+              icon: "\ue900",
+              fontFamily: "icomoon",
+              size: 14,
+              color: color,
+              activeColor: color,
+              backgroundColor: "transparent",
+              activeBackgroundColor: "rgba(22, 119, 255, 0.1)",
+            },
+          ],
+        },
+      },
+      yAxis: {
+        type: YAxisType.Normal,
       },
     },
   });
@@ -159,11 +165,86 @@ onMounted(() => {
       console.log(err);
     });
 
-  // chart?.subscribeAction(ActionType.OnCrosshairChange, (data: any) => {
-  //   console.log(data);
-  // });
+  chart?.subscribeAction(ActionType.OnCrosshairChange, (data: any) => {
+    console.log('ActionType.OnCrosshairChange:>>>',data);
+  });
 
-  // chart!.createOverlay("sampleCircle", "candle_pane");
+  chart?.createIndicator(
+    {
+      name: "MA",
+      // @ts-expect-error
+      createTooltipDataSource: ({ indicator, defaultStyles }) => {
+        const icons = [];
+        if (indicator.visible) {
+          // @ts-expect-error
+          icons.push(defaultStyles.tooltip.icons[1]);
+          // @ts-expect-error
+          icons.push(defaultStyles.tooltip.icons[2]);
+          // @ts-expect-error
+          icons.push(defaultStyles.tooltip.icons[3]);
+        } else {
+          // @ts-expect-error
+          icons.push(defaultStyles.tooltip.icons[0]);
+          // @ts-expect-error
+          icons.push(defaultStyles.tooltip.icons[2]);
+          // @ts-expect-error
+          icons.push(defaultStyles.tooltip.icons[3]);
+        }
+        return { icons };
+      },
+    },
+    false,
+    {
+      id: "candle_pane",
+      position: "top",
+      gap: {
+        top: 0.2,
+        bottom: 0.1,
+      },
+    }
+  );
+
+  chart!.createOverlay({
+    name: "simpleAnnotation",
+    needDefaultPointFigure: false,
+    points: [{
+      timestamp: 1704240000000,
+      value: 44977.99,
+    }],
+    extendData: "B",
+    onClick: (event) => {
+      console.log(event);
+      return true;
+    },
+  }, "candle_pane");
+
+  // chart!.createOverlay({
+  //   name: 'segment',
+  //   id: 'segment_1',
+  //   groupId: 'segment',
+  //   points: [
+  //     { timestamp: 1704863700000, value: 44297.9 },
+  //     { timestamp: 1704870900000, value: 44297.9 },
+  //   ],
+  //   styles: {
+  //     line: {
+  //       style: 'solid' as LineType,
+  //       dashedValue: [2, 2],
+  //       color: '#f00',
+  //       size: 2
+  //     }
+  //   },
+  //   visible: true,
+  //   mode: 'normal' as OverlayMode,
+  //   modeSensitivity: 8,
+  //   needDefaultPointFigure: false,
+  //   needDefaultXAxisFigure: false,
+  //   needDefaultYAxisFigure: false,
+  //   onMouseEnter: function (event) {
+  //     console.log(event);
+  //     return true;
+  //   },
+  // },"candle_pane");
 });
 
 onUnmounted(() => {
