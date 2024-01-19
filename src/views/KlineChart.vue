@@ -63,9 +63,6 @@ onMounted(() => {
             color: "#888888",
           },
         },
-        plusClick: {
-          show: true,
-        },
       },
       indicator: {
         tooltip: {
@@ -165,8 +162,8 @@ onMounted(() => {
       console.log(err);
     });
 
-  chart?.subscribeAction(ActionType.OnCrosshairChange, (data: any) => {
-    console.log('ActionType.OnCrosshairChange:>>>',data);
+  chart?.subscribeAction(ActionType.OnPlusClick, (data: any) => {
+    console.log('ActionType.OnPlusClick:>>>',data);
   });
 
   chart?.createIndicator(
@@ -204,19 +201,45 @@ onMounted(() => {
     }
   );
 
-  chart!.createOverlay({
-    name: "simpleAnnotation",
-    needDefaultPointFigure: false,
-    points: [{
-      timestamp: 1704240000000,
-      value: 44977.99,
-    }],
-    extendData: "B",
-    onClick: (event) => {
-      console.log(event);
-      return true;
+  chart?.createIndicator(
+    {
+      name: "VOL",
+      // @ts-expect-error
+      createTooltipDataSource: ({ indicator, defaultStyles }) => {
+        const icons = [];
+        if (indicator.visible) {
+          // @ts-expect-error
+          icons.push(defaultStyles.tooltip.icons[1]);
+          // @ts-expect-error
+          icons.push(defaultStyles.tooltip.icons[2]);
+          // @ts-expect-error
+          icons.push(defaultStyles.tooltip.icons[3]);
+        } else {
+          // @ts-expect-error
+          icons.push(defaultStyles.tooltip.icons[0]);
+          // @ts-expect-error
+          icons.push(defaultStyles.tooltip.icons[2]);
+          // @ts-expect-error
+          icons.push(defaultStyles.tooltip.icons[3]);
+        }
+        return { icons };
+      },
     },
-  }, "candle_pane");
+  );
+
+  // chart!.createOverlay({
+  //   name: "simpleAnnotation",
+  //   needDefaultPointFigure: true,
+  //   points: [{
+  //     timestamp: 1704240000000,
+  //     value: 44977.99,
+  //   }],
+  //   extendData: "B",
+  //   onClick: (event) => {
+  //     console.log(event);
+  //     return true;
+  //   },
+  // }, "candle_pane");
 
   // chart!.createOverlay({
   //   name: 'segment',

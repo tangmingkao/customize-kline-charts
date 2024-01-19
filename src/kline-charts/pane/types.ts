@@ -45,3 +45,12 @@ export const PaneIdConstants = {
   INDICATOR: 'indicator_pane_',
   X_AXIS: 'x_axis_pane'
 }
+
+export interface PlusClickInfo {
+  isTouch: boolean,
+  pageX: number,
+  pageY: number,
+  x: number,
+  y: number,
+  price: number,
+}

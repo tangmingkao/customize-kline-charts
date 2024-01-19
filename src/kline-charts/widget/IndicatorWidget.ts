@@ -24,6 +24,7 @@ import IndicatorView from '../view/IndicatorView'
 import CrosshairLineView from '../view/CrosshairLineView'
 import IndicatorTooltipView from '../view/IndicatorTooltipView'
 import OverlayView from '../view/OverlayView'
+import PlusClickView from '../view/PlusClickView'
 
 export default class IndicatorWidget extends DrawWidget<DrawPane<YAxis>> {
   private readonly _gridView = new GridView(this)
@@ -31,11 +32,13 @@ export default class IndicatorWidget extends DrawWidget<DrawPane<YAxis>> {
   private readonly _crosshairLineView = new CrosshairLineView(this)
   private readonly _tooltipView = this.createTooltipView()
   private readonly _overlayView = new OverlayView(this)
+  private readonly _plusClickView = new PlusClickView(this)
 
   constructor (rootContainer: HTMLElement, pane: DrawPane<YAxis>) {
     super(rootContainer, pane)
     this.addChild(this._tooltipView)
     this.addChild(this._overlayView)
+    this.addChild(this._plusClickView)
     this.getContainer().style.cursor = 'crosshair'
     this.registerEvent('mouseMoveEvent', () => {
       pane.getChart().getChartStore().getTooltipStore().setActiveIcon()
@@ -63,5 +66,6 @@ export default class IndicatorWidget extends DrawWidget<DrawPane<YAxis>> {
     this._overlayView.draw(ctx)
     this._crosshairLineView.draw(ctx)
     this._tooltipView.draw(ctx)
+    this._plusClickView.draw(ctx)
   }
 }

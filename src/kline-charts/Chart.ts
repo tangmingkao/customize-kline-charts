@@ -716,7 +716,6 @@ export default class ChartImp implements Chart {
       logWarn('createIndicator', 'value', 'indicator not supported, you may need to use registerIndicator to add one!!!')
       return null
     }
-
     let paneId = paneOptions?.id
     const currentPane = this.getDrawPaneById(paneId ?? '')
     if (currentPane !== null) {

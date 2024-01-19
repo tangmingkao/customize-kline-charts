@@ -317,10 +317,15 @@ export interface CrosshairDirectionStyle {
   text: StateTextStyle
 }
 
+export interface PlusClick {
+  show?: boolean,
+}
+
 export interface CrosshairStyle {
   show: boolean
   horizontal: CrosshairDirectionStyle
   vertical: CrosshairDirectionStyle
+  plusClick?: PlusClick
 }
 
 export interface OverlayPointStyle {

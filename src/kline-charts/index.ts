@@ -30,7 +30,7 @@ import {
 } from './common/Styles'
 import type Nullable from './common/Nullable'
 
-import { logError, logTag, logWarn } from './common/utils/logger'
+import { logError, logWarn } from './common/utils/logger'
 
 import {
   clone, merge, isString, isNumber, isValid, isObject, isArray, isFunction, isBoolean
@@ -79,7 +79,6 @@ function version (): string {
  * @returns {Chart}
  */
 function init (ds: HTMLElement | string, options?: Options): Nullable<Chart> {
-  logTag()
   let dom: Nullable<HTMLElement>
   if (isString(ds)) {
     dom = document.getElementById(ds)
@@ -92,7 +91,7 @@ function init (ds: HTMLElement | string, options?: Options): Nullable<Chart> {
   }
   let chart = instances.get(dom.id)
   if (isValid(chart)) {
-    logWarn('', '', 'The chart has been initialized on the dom！！！')
+    logWarn('', '', 'The chart has been initialized on the dom!!!')
     return chart
   }
   const id = `k_line_chart_${chartBaseId++}`

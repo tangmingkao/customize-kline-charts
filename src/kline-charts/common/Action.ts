@@ -23,7 +23,8 @@ export enum ActionType {
   OnTooltipIconClick = 'onTooltipIconClick',
   OnCrosshairChange = 'onCrosshairChange',
   OnCandleBarClick = 'onCandleBarClick',
-  OnPaneDrag = 'onPaneDrag'
+  OnPaneDrag = 'onPaneDrag',
+  OnPlusClick = 'onPlusClick'
 }
 
 export default class Delegate {
